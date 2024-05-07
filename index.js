@@ -8,21 +8,7 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const PORT = 3000;
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      console.log("Origin attempting to access the resource:", origin);
-      const allowedOrigins = ["http://localhost:3000"];
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(
-          new Error("CORS policy does not allow access from this origin")
-        );
-      }
-    },
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/questions", (req, res) => {
