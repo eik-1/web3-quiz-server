@@ -10,9 +10,17 @@ const PORT = 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
+    origin: function (origin, callback) {
+      console.log("Origin attempting to access the resource:", origin);
+      const allowedOrigins = ["http://localhost:3000"];
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(
+          new Error("CORS policy does not allow access from this origin")
+        );
+      }
+    },
   })
 );
 app.use(bodyParser.json());
