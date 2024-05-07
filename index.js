@@ -8,7 +8,22 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        ["http://localhost:3000", "https://your-production-domain.com"].indexOf(
+          origin
+        ) !== -1
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 app.use(bodyParser.json());
 
 app.get("/questions", (req, res) => {
